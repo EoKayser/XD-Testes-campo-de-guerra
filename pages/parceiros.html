@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parceiros - XD Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/icons/xd.png">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+    .partner-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+    .partner-image img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+    }
+    .partner-card h3 {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .partners-carousel {
+      position: relative;
+      max-width: 1200px;
+      overflow: hidden;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .carousel-container {
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.3s ease;
+      gap: 30px;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 10;
+    }
+    .carousel-btn.prev {
+      left: 0;
+    }
+    .carousel-btn.next {
+      right: 0;
+    }
+    .carousel-btn:hover {
+      background: var(--primary-2);
+    }
+  </style>
+</head>
+<body>
+  <button id="theme-toggle" aria-label="Alternar tema" class="support-button theme-toggle" style="position:fixed;top:12px;right:12px;z-index:4000;">🌓</button>
+
+  <header class="site-header">
+    <div class="header-container">
+      <h1 class="store-name">XD STORE <small class="store-sub">(TOP 1)</small></h1>
+      <div class="header-actions">
+        <a href="../index.html" class="product-button cta-secondary" style="text-decoration:none;">Voltar à Loja</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <section class="welcome-panel">
+      <div class="welcome-inner">
+        <div class="welcome-visual">
+          <img src="../assets/icons/XD2.png" alt="Bloco de Grama" width="120" height="120">
+        </div>
+
+        <div class="welcome-content">
+          <div class="welcome-header">
+            <h2 class="welcome-title">Programa de <span class="highlight">Parceiros</span></h2>
+            <div class="welcome-badge">🤝 Junte-se a nós</div>
+          </div>
+
+          <p class="welcome-lead">Seja um parceiro da XD STORE e ganhe comissões vendendo nossos produtos exclusivos para Minecraft.</p>
+
+          <p class="welcome-body">Nosso programa de afiliados oferece oportunidades para streamers, youtubers, servidores e influenciadores. Receba comissões por cada venda gerada através do seu link de indicação.</p>
+
+          <ul class="welcome-features" aria-hidden="false">
+            <li>💰 Comissões atrativas por venda</li>
+            <li>🎮 Produtos exclusivos e atualizados</li>
+            <li>📊 Dashboard para acompanhar vendas</li>
+          </ul>
+
+          <div class="welcome-ctas">
+            <button id="become-partner" class="product-button cta-primary">Tornar-se Parceiro</button>
+            <a href="#benefits" class="product-button cta-secondary">Ver Benefícios</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" class="products-section">
+      <h2 class="section-title">Benefícios do Programa</h2>
+      <div class="products-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;">
+        <div class="card" style="background:var(--surface);border:2px solid var(--primary);border-radius:12px;padding:1.5rem;text-align:center;">
+          <h3 style="font-size:1.5rem;margin-bottom:0.5rem;">Comissões por Cupom</h3>
+          <p>Você recebe uma comissão toda vez que alguém realiza uma compra usando o seu cupom exclusivo..</p>
+        </div>
+        <div class="card" style="background:var(--surface);border:2px solid var(--primary);border-radius:12px;padding:1.5rem;text-align:center;">
+          <h3 style="font-size:1.5rem;margin-bottom:0.5rem;">Pagamento Imediato</h3>
+          <p>Assim que o cupom é utilizado e a compra confirmada, o valor da sua comissão é pago diretamente para você.</p>
+        </div>
+        <div class="card" style="background:var(--surface);border:2px solid var(--primary);border-radius:12px;padding:1.5rem;text-align:center;">
+          <h3 style="font-size:1.5rem;margin-bottom:0.5rem;">Materiais de Marketing</h3>
+          <p>Acesse banners, links e materiais exclusivos para promover nossos produtos.</p>
+        </div>
+        <div class="card" style="background:var(--surface);border:2px solid var(--primary);border-radius:12px;padding:1.5rem;text-align:center;">
+          <h3 style="font-size:1.5rem;margin-bottom:0.5rem;">Suporte Dedicado</h3>
+          <p>Nossa equipe acompanha você, tira dúvidas e oferece orientações para ajudar a melhorar suas divulgações e aumentar as vendas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <h2 class="section-title">Como Funciona</h2>
+      <div style="max-width:800px;margin:0 auto;text-align:center;">
+        <ol style="text-align:left;display:inline-block;line-height:1.8;">
+          <li><strong>Cadastre-se:</strong> Preencha o formulário de parceria no Discord.</li>
+          <li><strong>Receba seu link:</strong> Após aprovação, você receberá seu link de afiliado único.</li>
+          <li><strong>Divulgue:</strong> Compartilhe o link em suas redes sociais, streams ou servidor.</li>
+          <li><strong>Ganhe comissões:</strong> Receba porcentagem em cada venda realizada através do seu link.</li></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <h2 class="section-title">Conheça Nossos Parceiros</h2>
+      <div class="partners-carousel">
+        <div class="carousel-container">
+          <div class="carousel-track">
+            <div class="partner-card">
+              <div class="partner-image">
+                <img src="../assets/afiliados/Darkheavem.png" alt="Ícone do Canal João Silva">
+              </div>
+              <h3>Darkheavem</h3>
+            </div>
+            <div class="partner-card">
+              <div class="partner-image">
+                <img src="../assets/afiliados/EoKayser.png" alt="Ícone do Canal Maria Santos">
+              </div>
+              <h3>EoKayser</h3>
+        <button class="carousel-btn prev" aria-label="Parceiro anterior">‹</button>
+        <button class="carousel-btn next" aria-label="Próximo parceiro">›</button>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <h2 class="section-title">Entre em Contato</h2>
+      <div style="text-align:center;">
+        <p>Para se tornar um parceiro, entre em contato conosco via Discord.</p>
+        <a href="https://discord.gg/3t7g9TbN5M" class="product-button cta-primary" target="_blank" rel="noopener noreferrer" style="margin-top:1rem;display:inline-block;">Entrar no Discord</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <p class="footer-store-name">XD STORE</p>
+      <p class="footer-text">Itens digitais, entrega imediata via Discord</p>
+      <p class="footer-legal">© 2026 XD STORE. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Botão de Suporte (Discord) -->
+  <a href="https://discord.gg/3t7g9TbN5M" class="discord-support" target="_blank" rel="noopener noreferrer" aria-label="Suporte no Discord" title="Suporte no Discord (XD Store)">
+    <img src="../assets/images/discord.png" alt="Discord" width="20" height="20">
+    <span>Suporte</span>
+  </a>
+
+  <script>
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      const DURATION = 1000;
+
+      btn.addEventListener('click', (e)=>{
+        e.stopImmediatePropagation();
+        try{
+          if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+            const cur = localStorage.getItem('xd-theme') || 'dark';
+            const next = cur === 'dark' ? 'light' : 'dark';
+            if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('xd-theme', next);
+            return;
+          }
+
+          const cur = localStorage.getItem('xd-theme') || 'dark';
+          const next = cur === 'dark' ? 'light' : 'dark';
+
+          const wipe = document.createElement('div');
+          wipe.className = 'theme-wipe ' + (next === 'light' ? 'light' : 'dark');
+          document.body.appendChild(wipe);
+
+          setTimeout(()=> wipe.classList.add('active'), 10);
+
+          setTimeout(()=>{
+            if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('xd-theme', next);
+          }, DURATION/2);
+
+          setTimeout(()=>{
+            wipe.classList.remove('active');
+            setTimeout(()=>{ try{ wipe.remove(); }catch(e){} }, 220);
+            document.documentElement.classList.remove('theme-animating');
+            setTimeout(()=>{ document.documentElement.classList.remove('with-transition'); }, 120);
+          }, DURATION + 80);
+
+        }catch(e){}
+      });
+    })();
+
+    // Become partner button
+    document.getElementById('become-partner').addEventListener('click', ()=>{
+      window.open('https://discord.gg/3t7g9TbN5M', '_blank');
+    });
+
+    // Partners carousel
+    (function(){
+      const track = document.querySelector('.carousel-track');
+      const cards = document.querySelectorAll('.partner-card');
+      const prevBtn = document.querySelector('.carousel-btn.prev');
+      const nextBtn = document.querySelector('.carousel-btn.next');
+
+      if (!track || !cards.length || !prevBtn || !nextBtn) return;
+
+      let currentIndex = 0;
+      const visibleCards = 3; // Always show 3 cards
+      const cardWidth = 160; // 150px card + 10px padding on each side
+      const maxIndex = Math.max(0, cards.length - visibleCards);
+
+      function updateCarousel() {
+        const translateX = -currentIndex * cardWidth;
+        track.style.transform = `translateX(${translateX}px)`;
+        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+      }
+
+      prevBtn.addEventListener('click', ()=>{
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      });
+
+      nextBtn.addEventListener('click', ()=>{
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+          updateCarousel();
+        }
+      });
+
+      updateCarousel();
+    })();
+  </script>
+</body>
+</html>

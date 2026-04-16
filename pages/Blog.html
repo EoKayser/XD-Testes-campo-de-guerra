@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novidades - XD Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/icons/xd.png">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+    /* Estilos específicos para a página de anúncios em formato de blog */
+    .announcement-card {
+      background: var(--surface);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--text-secondary);
+      position: relative;
+    }
+
+    .announcement-title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .announcement-author {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .announcement-date {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .announcement-content {
+      line-height: 1.8;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .announcements-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .welcome-features li {
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-features li::before {
+      content: '📌 ';
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement" role="region" aria-live="polite">
+    <div class="announcement-inner">
+      <div class="led-screen" aria-hidden="false">
+        <div class="marquee" aria-hidden="false">
+          <span>⚡ Promoções ativas • Entrega digital imediata • Suporte via Discord</span>
+          <span aria-hidden="true">⚡ Promoções ativas • Entrega digital imediata • Suporte via Discord</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="theme-toggle" aria-label="Alternar tema" class="support-button theme-toggle" style="position:fixed;top:12px;right:12px;z-index:4000;">🌓</button>
+
+  <header class="site-header">
+    <div class="header-container">
+      <h1 class="store-name">XD STORE <small class="store-sub">(TOP 1)</small></h1>
+      <div class="header-actions">
+        <a href="../index.html" class="product-button cta-secondary" style="text-decoration:none;">Voltar à Loja</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <section class="welcome-panel">
+      <div class="welcome-inner">
+        <div class="welcome-visual">
+          <img src="../assets/icons/XD2.png" alt="Bloco de Grama" width="120" height="120">
+        </div>
+
+        <div class="welcome-content">
+          <div class="welcome-header">
+            <h2 class="welcome-title">Novidades da <span class="highlight">XD STORE</span></h2>
+            <div class="welcome-badge">📢 Anúncios e Atualizações</div>
+          </div>
+
+          <p class="welcome-lead">Fique por dentro das últimas novidades, promoções e anúncios da XD STORE.</p>
+
+          <p class="welcome-body">Aqui você encontra todas as informações importantes sobre novos produtos, eventos especiais e atualizações da nossa loja. Acompanhe para não perder nenhuma oportunidade!</p>
+
+          <ul class="welcome-features" aria-hidden="false">
+            <li>📅 Anúncios atualizados regularmente</li>
+            <li>🎁 Promoções exclusivas</li>
+            <li>📰 Notícias sobre novos itens</li>
+          </ul>
+
+          <div class="welcome-ctas">
+            <a href="#announcements" class="product-button cta-primary">Ver Anúncios</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="announcements" class="products-section">
+      <h2 class="section-title">Últimos Anúncios</h2>
+      <div class="announcements-grid"> 
+        <div class="announcement-card">
+          <h3 class="announcement-title">Bem-vindo à nova XD Store</h3>
+          <p class="announcement-author">Por EoKayser</p>
+          <p class="announcement-date">Publicado em 1 de fevereiro de 2026</p>
+          <p class="announcement-content">A XD Store está oficialmente inaugurada — e esse é um novo começo.
+Nossa equipe está extremamente feliz em recomeçar este projeto com ainda mais foco, qualidade e compromisso com a comunidade Minecraft FA. Acreditamos que 2026 será um ano incrível para nós e para todos que fazem parte da XD.
+
+Nosso site foi pensado para ser simples, rápido e transparente.
+Na Página de Produtos, você encontra todos os itens disponíveis, com descrições claras, preços acessíveis e um processo de compra seguro.
+
+Na seção Sobre, contamos a história da XD Store, nossos valores e o que nos move a entregar confiança e qualidade em cada venda.
+
+O FAQ foi criado para responder às dúvidas mais comuns, ajudando você a entender como comprar, receber seus produtos e utilizar nossos serviços sem complicação.
+
+No Blog, compartilhamos novidades, atualizações, dicas e conteúdos relacionados ao universo Minecraft, mantendo você sempre por dentro do que acontece na loja.
+
+Já em Parceiros, apresentamos nossos afiliados e colaboradores, pessoas que crescem junto com a XD Store e fazem parte da nossa trajetória.
+
+Esse site marca um novo capítulo.
+Obrigado por fazer parte da XD Store. O futuro começa agora.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <p class="footer-store-name">XD STORE</p>
+      <p class="footer-text">Itens digitais, entrega imediata via Discord</p>
+      <p class="footer-legal">© 2026 XD STORE. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Botão de Suporte (Discord) -->
+  <a href="https://discord.gg/3t7g9TbN5M" class="discord-support" target="_blank" rel="noopener noreferrer" aria-label="Suporte no Discord" title="Suporte no Discord (XD Store)">
+    <img src="../assets/images/discord.png" alt="Discord" width="20" height="20">
+    <span>Suporte</span>
+  </a>
+
+  <script>
+    // Apply theme on load
+    (function(){
+      const savedTheme = localStorage.getItem('xd-theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    })();
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      const DURATION = 1000;
+
+      btn.addEventListener('click', (e)=>{
+        e.stopImmediatePropagation();
+        try{
+          if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+            const cur = localStorage.getItem('xd-theme') || 'dark';
+            const next = cur === 'dark' ? 'light' : 'dark';
+            if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('xd-theme', next);
+            return;
+          }
+
+          const cur = localStorage.getItem('xd-theme') || 'dark';
+          const next = cur === 'dark' ? 'light' : 'dark';
+
+          const wipe = document.createElement('div');
+          wipe.className = 'theme-wipe ' + (next === 'light' ? 'light' : 'dark');
+          document.body.appendChild(wipe);
+
+          setTimeout(()=> wipe.classList.add('active'), 10);
+
+          setTimeout(()=>{
+            if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('xd-theme', next);
+          }, DURATION/2);
+
+          setTimeout(()=>{
+            wipe.classList.remove('active');
+            setTimeout(()=>{ try{ wipe.remove(); }catch(e){} }, 220);
+            document.documentElement.classList.remove('theme-animating');
+            setTimeout(()=>{ document.documentElement.classList.remove('with-transition'); }, 120);
+          }, DURATION + 80);
+
+        }catch(e){}
+      });
+    })();
+  </script>
+</body>
+</html>

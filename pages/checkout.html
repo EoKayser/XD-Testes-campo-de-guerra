@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - PIX | XD STORE</title>
+  <link rel="icon" type="image/png" href="../assets/icons/xd.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/professional.css" />
+  <style>
+    /* Override específico para checkout */
+    body {
+      background: var(--bg);
+    }
+
+    /* Theme light - Variáveis devem vir primeiro */
+    html[data-theme="light"] {
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --glass-blur: blur(20px);
+      --transition-normal: 0.3s ease;
+      --transition-fast: 0.15s ease;
+      --card-glow: 0 10px 30px rgba(106,13,173,0.08);
+      --card-glow-hover: 0 15px 40px rgba(106,13,173,0.12);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    html[data-theme="light"] .card,
+    html[data-theme="light"] .summary {
+      background: #ffffff;
+      border-color: #e5e7eb;
+      box-shadow: var(--card-glow);
+    }
+
+    html[data-theme="light"] .card:hover {
+      box-shadow: var(--card-glow-hover);
+    }
+
+    html[data-theme="light"] .qr-box {
+      background: #ffffff;
+      border-color: #e5e7eb;
+      box-shadow: var(--shadow-md);
+    }
+
+    html[data-theme="light"] .key {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+      color: #111111;
+    }
+
+    html[data-theme="light"] .btn.secondary {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+    }
+
+    html[data-theme="light"] .coupon-line input {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+      color: #111111;
+    }
+
+    html[data-theme="light"] .summary .line {
+      border-bottom-color: rgba(0,0,0,0.1);
+    }
+
+    html[data-theme="light"] .summary .line.total {
+      border-top-color: #e5e7eb;
+    }
+
+    html[data-theme="light"] .back-link {
+      color: #444444;
+    }
+
+    html[data-theme="light"] .back-link:hover {
+      color: #6a0dad;
+    }
+
+    html[data-theme="light"] .security-note {
+      color: #444444;
+    }
+
+    html[data-theme="light"] .animated-bg {
+      display: none;
+    }
+
+    .checkout-container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+    }
+
+    .checkout-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 2rem;
+      gap: 0.5rem;
+    }
+
+    .checkout-header h1 {
+      font-size: 2rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+
+    .checkout-header h1 .checkout-icon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      color: var(--text);
+      background: none;
+      -webkit-text-fill-color: initial;
+      background-clip: unset;
+    }
+
+    .checkout-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .checkout-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 900px) {
+      .checkout-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+
+    /* Card principal */
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: 20px;
+      box-shadow: var(--card-glow);
+      padding: 1.5rem;
+      color: var(--text);
+      transition: all var(--transition-normal);
+    }
+
+    .card:hover {
+      box-shadow: var(--card-glow-hover);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+
+    /* Área do QR Code */
+    .qr-wrap {
+      display: grid;
+      gap: 1rem;
+      place-items: center;
+      text-align: center;
+    }
+
+    .qr-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 290px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .qr-box canvas,
+    .qr-box img {
+      border-radius: 8px;
+    }
+
+    .key {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.85rem;
+      word-break: break-all;
+      background: var(--glass-bg);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      line-height: 1.5;
+    }
+
+    /* Row layout */
+    .row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .row .grow {
+      flex: 1;
+    }
+
+    /* Botões */
+    .btn {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      background: var(--primary-gradient);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all var(--transition-normal);
+      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.secondary {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(124, 58, 237, 0.1);
+      border-color: rgba(124, 58, 237, 0.3);
+    }
+
+    .btn[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(35%);
+      transform: none !important;
+    }
+
+    /* Resumo do pedido */
+    .summary {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: var(--card-glow);
+    }
+
+    .summary h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .summary .line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      font-size: 0.95rem;
+    }
+
+    .summary .line:last-child {
+      border-bottom: 0;
+    }
+
+    .summary .line.total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-top: 1px solid var(--glass-border);
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+    }
+
+    .summary .line.total strong {
+      color: #a78bfa;
+    }
+
+    /* Input de cupom */
+    .coupon-line {
+      gap: 0.5rem;
+    }
+
+    .coupon-line input {
+      flex: 1;
+      padding: 0.65rem 0.9rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .coupon-line input:focus {
+      outline: none;
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+
+    .coupon-line input::placeholder {
+      color: var(--muted);
+    }
+
+    /* Badge de status */
+    .badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      background: var(--glass-bg);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      font-weight: 600;
+    }
+
+    .badge.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .badge.success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    /* Mensagem de erro QR */
+    .qr-error {
+      color: var(--muted);
+      padding: 12px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    /* Botão de tema */
+    .theme-toggle {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 4000;
+      background: var(--glass-bg, rgba(0,0,0,0.3));
+      border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+      backdrop-filter: var(--glass-blur, blur(20px));
+      -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all var(--transition-fast, 0.15s ease);
+      color: var(--text, #fff);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    html[data-theme="light"] .theme-toggle {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(0, 0, 0, 0.1);
+      color: #111;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Link de voltar */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      transition: color var(--transition-fast);
+    }
+
+    .back-link:hover {
+      color: #a78bfa;
+    }
+
+    /* Segurança */
+    .security-note {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+
+    .security-note .icon {
+      font-size: 1rem;
+    }
+
+    /* Animação de loading */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .loading {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .checkout-container {
+        padding: 1rem;
+        margin: 1rem auto;
+      }
+
+      .checkout-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .card, .summary {
+        padding: 1.25rem;
+        border-radius: 16px;
+      }
+
+      .qr-box {
+        width: 100%;
+        max-width: 290px;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .row .grow {
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background animado -->
+  <div class="animated-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <button id="theme-toggle" aria-label="Alternar tema" class="theme-toggle">🌓</button>
+
+  <div class="checkout-container">
+    <a href="../index.html" class="back-link">
+      ← Voltar para a loja
+    </a>
+
+    <div class="checkout-header">
+      <h1><span class="checkout-icon" aria-hidden="true">🔒</span>Pagamento Seguro via PIX</h1>
+      <p>Finalize seu pedido de forma rápida e segura. O QR Code e o código copia e cola serão gerados abaixo.</p>
+    </div>
+
+    <div class="card">
+      <div class="checkout-grid">
+        <section class="qr-wrap">
+          <div class="qr-box">
+            <div id="XD-STORE-2001" aria-label="QR Code PIX"></div>
+          </div>
+          <div class="row">
+            <div class="grow key" id="XD-STORE-2002" tabindex="0" aria-label="Código PIX copia e cola"></div>
+            <button class="btn" id="XD-STORE-2003" aria-label="Copiar código PIX">Copiar</button>
+          </div>
+          <div class="row">
+            <div class="grow key" id="XD-STORE-2004" aria-label="ID do pedido"></div>
+            <button class="btn secondary" id="XD-STORE-2005" aria-label="Copiar ID do pedido">Copiar</button>
+          </div>
+          <div id="XD-STORE-2006" class="badge" role="status" aria-live="polite" style="display:none"></div>
+          <div class="payment-confirm">
+            <button class="btn payment-btn" id="XD-STORE-2011" aria-label="Já paguei">
+              <span class="payment-icon">✅</span>
+              <span class="payment-text">Já paguei</span>
+            </button>
+          </div>
+          <div class="security-note">
+            <span class="icon">🔒</span>
+            <span>Pagamento criptografado e seguro</span>
+          </div>
+        </section>
+
+        <aside class="summary" aria-label="Resumo do pedido">
+          <h2>📋 Resumo do Pedido</h2>
+          <div class="line"><span>Itens</span><strong id="XD-STORE-2007">0</strong></div>
+          <div class="line"><span>Subtotal</span><strong id="XD-STORE-2008">R$ 0,00</strong></div>
+          <div class="line coupon-line">
+            <input type="text" id="coupon-input" placeholder="Código do cupom" />
+            <button class="btn secondary" id="apply-coupon">Aplicar</button>
+            <button class="btn secondary" id="remove-coupon" style="display:none;">Remover</button>
+          </div>
+          <div class="line" id="discount-line" style="display:none;"><span>Desconto</span><strong id="XD-STORE-2009" style="color: #6ee7b7;">-R$ 0,00</strong></div>
+          <div class="line total"><span>Total</span><strong id="XD-STORE-2010">R$ 0,00</strong></div>
+          <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem; line-height: 1.5;">
+            ⏱️ O QR Code expira em 30 minutos. Após a confirmação do pagamento, você receberá os itens automaticamente via Discord.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module">
+    import { getCartTotal, getDiscount, getCartTotalWithDiscount, applyCoupon, removeCoupon, getAppliedCoupon } from '../js/store.js';
+
+    // Lista de cupons válidos
+    const VALID_COUPONS = {
+      'DESCONTO10': 10,
+      'PROMO20': 20,
+      'BLACKFRIDAY': 30,
+    };
+
+    function validateCoupon(code) {
+      return VALID_COUPONS[code.toUpperCase()] ? { code: code.toUpperCase(), percentage: VALID_COUPONS[code.toUpperCase()] } : null;
+    }
+
+    function toBRL(v){
+      try{ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch{ return 'R$ ' + (Number(v)||0).toFixed(2).replace('.',','); }
+    }
+
+    function loadCartSummary(){
+      const raw = localStorage.getItem('cart');
+      let cart = [];
+      try { cart = raw ? JSON.parse(raw) : []; } catch { cart = []; }
+      const subtotal = cart.reduce((acc,i)=> acc + Number(i.price||0) * Number(i.qty||1), 0);
+      const discount = getDiscount(subtotal);
+      const total = subtotal - discount;
+      document.getElementById('XD-STORE-2007').textContent = String(cart.reduce((a,i)=>a+Number(i.qty||1),0));
+      document.getElementById('XD-STORE-2008').textContent = toBRL(subtotal);
+      const discountEl = document.getElementById('XD-STORE-2009');
+      const discountLine = document.getElementById('discount-line');
+      if (discount > 0) {
+        discountEl.textContent = '-' + toBRL(discount);
+        discountLine.style.display = 'block';
+      } else {
+        discountLine.style.display = 'none';
+      }
+      document.getElementById('XD-STORE-2010').textContent = toBRL(total);
+      return { subtotal, total };
+    }
+
+    function generateOrderId(){
+      const rand = Math.floor(Math.random()*1000000).toString().padStart(6,'0');
+      return `XD-STORE-${rand}`;
+    }
+
+    function buildPixPayload({pixKey, merchantName, merchantCity, txid, amount, message}){
+      const ID_PAYLOAD_FORMAT = '00';
+      const ID_MERCHANT_ACCOUNT = '26';
+      const ID_MERCHANT_GUI = '00';
+      const ID_MERCHANT_KEY = '01';
+      const ID_MERCHANT_DESCRIPTION = '02';
+      const ID_MERCHANT_CATEGORY_CODE = '52';
+      const ID_TRANSACTION_CURRENCY = '53';
+      const ID_TRANSACTION_AMOUNT = '54';
+      const ID_COUNTRY_CODE = '58';
+      const ID_MERCHANT_NAME = '59';
+      const ID_MERCHANT_CITY = '60';
+      const ID_ADDITIONAL_DATA_FIELD = '62';
+      const ID_TXID = '05';
+      const ID_CRC16 = '63';
+
+      function formatValue(id, value){
+        const len = String(value).length.toString().padStart(2,'0');
+        return `${id}${len}${value}`;
+      }
+
+      const gui = formatValue(ID_MERCHANT_GUI, 'br.gov.bcb.pix');
+      const key = formatValue(ID_MERCHANT_KEY, pixKey);
+      const desc = message ? formatValue(ID_MERCHANT_DESCRIPTION, message.substring(0,99)) : '';
+      const merchantAccountInfo = formatValue(ID_MERCHANT_ACCOUNT, gui + key + desc);
+
+      const merCat = formatValue(ID_MERCHANT_CATEGORY_CODE, '0000');
+      const currency = formatValue(ID_TRANSACTION_CURRENCY, '986');
+      const amountStr = Number(amount||0).toFixed(2);
+      const amountField = Number(amount) > 0 ? formatValue(ID_TRANSACTION_AMOUNT, amountStr) : '';
+      const country = formatValue(ID_COUNTRY_CODE, 'BR');
+      const name = formatValue(ID_MERCHANT_NAME, merchantName.substring(0,25));
+      const city = formatValue(ID_MERCHANT_CITY, merchantCity.substring(0,15));
+      const txidField = formatValue(ID_TXID, (txid||'***').substring(0,25));
+      const addData = formatValue(ID_ADDITIONAL_DATA_FIELD, txidField);
+
+      let payload = '';
+      payload += formatValue(ID_PAYLOAD_FORMAT, '01');
+      payload += merchantAccountInfo;
+      payload += merCat;
+      payload += currency;
+      payload += amountField;
+      payload += country;
+      payload += name;
+      payload += city;
+      payload += addData;
+      payload += ID_CRC16 + '04';
+
+      function crc16(str){
+        let crc = 0xFFFF;
+        for (let i=0; i<str.length; i++){
+          crc ^= str.charCodeAt(i) << 8;
+          for (let j=0; j<8; j++){
+            if (crc & 0x8000) crc = (crc << 1) ^ 0x1021; else crc <<= 1;
+            crc &= 0xFFFF;
+          }
+        }
+        return crc.toString(16).toUpperCase().padStart(4, '0');
+      }
+
+      const full = payload + crc16(payload);
+      return full;
+    }
+
+    function drawQr(container, text){
+      try { container.innerHTML = ''; } catch {}
+      try{
+        const styles = getComputedStyle(document.documentElement);
+        const colorDark = (styles.getPropertyValue('--text') || '#111827').trim();
+        const colorLight = (styles.getPropertyValue('--surface') || '#ffffff').trim();
+        new QRCode(container, { text, width: 256, height: 256, colorDark: colorDark, colorLight: colorLight, correctLevel: QRCode.CorrectLevel.H });
+        const child = container.firstElementChild;
+        if (child && !child.id) child.id = 'XD-STORE-2001-canvas';
+      }catch(e){
+        console.error('QR generation failed', e);
+        const fallback = document.createElement('div');
+        fallback.className = 'qr-error';
+        fallback.textContent = 'Falha ao gerar QR. Use o código abaixo ou tente novamente.';
+        try{ container.appendChild(fallback); }catch{};
+        setStatus('Falha ao gerar QR', 'error');
+      }
+    }
+
+    function setStatus(msg, kind='success'){
+      const el = document.getElementById('XD-STORE-2006');
+      el.textContent = msg; el.style.display = 'inline-block';
+      el.className = `badge ${kind==='error'?'error':'success'}`;
+      setTimeout(()=>{ el.style.display='none'; }, 3000);
+    }
+
+    function approveOrder(orderId, total){
+      try {
+        const raw = localStorage.getItem('lastOrder');
+        const last = raw ? JSON.parse(raw) : {};
+        if (last && last.orderId === orderId) {
+          last.status = 'aprovado';
+          last.approvedAt = Date.now();
+          localStorage.setItem('lastOrder', JSON.stringify(last));
+        }
+      } catch (e) { /* noop */ }
+
+      localStorage.removeItem('cart');
+      setStatus('Pagamento aprovado! Redirecionando...', 'success');
+      setTimeout(()=>{ window.location.href = './sucesso.html'; }, 1200);
+    }
+
+    function startPolling(orderId, total){
+      setStatus('Aguardando pagamento...', 'success');
+      const interval = setInterval(()=>{
+        try{
+          const approvedIdRaw = localStorage.getItem('paymentApprovedOrderId');
+          const approvedId = approvedIdRaw ? JSON.parse(approvedIdRaw) : null;
+          if (approvedId && approvedId === orderId){
+            clearInterval(interval);
+            localStorage.removeItem('paymentApprovedOrderId');
+            approveOrder(orderId, total);
+          }
+        }catch(e){ /* ignore */ }
+      }, 3000);
+    }
+
+    let currentOrderId = null;
+
+    function generateQrCode(total){
+      if (!total || Number(total) <= 0){
+        const container = document.getElementById('XD-STORE-2001');
+        try{ container.innerHTML = '<div class="qr-error">Carrinho vazio. Adicione itens antes de gerar o PIX.</div>'; }catch{}
+        try{ document.getElementById('XD-STORE-2002').textContent = ''; }catch{}
+        try{ document.getElementById('XD-STORE-2003').setAttribute('disabled','disabled'); }catch{}
+        try{ document.getElementById('XD-STORE-2011').setAttribute('disabled','disabled'); }catch{}
+        setStatus('Carrinho vazio. Adicione itens para gerar o PIX.', 'error');
+        return;
+      }
+
+      const pixConfig = {
+        pixKey: '2809b0f3-e163-4554-9505-47080e1142a4',
+        merchantName: '.',
+        merchantCity: '.',
+      };
+
+      const txid = currentOrderId.replace(/[^A-Z0-9]/g,'').slice(0,25);
+      const payload = buildPixPayload({
+        pixKey: pixConfig.pixKey,
+        merchantName: pixConfig.merchantName,
+        merchantCity: pixConfig.merchantCity,
+        txid,
+        amount: total,
+        message: `Pedido ${currentOrderId}`
+      });
+
+      document.getElementById('XD-STORE-2004').textContent = currentOrderId;
+      const pixEl = document.getElementById('XD-STORE-2002');
+      const copiaCola = payload;
+      pixEl.textContent = copiaCola;
+      drawQr(document.getElementById('XD-STORE-2001'), payload);
+
+      document.getElementById('XD-STORE-2003').addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(copiaCola); setStatus('Código PIX copiado! ✅', 'success'); }catch(e){ setStatus('Falha ao copiar PIX', 'error'); }
+      });
+      document.getElementById('XD-STORE-2005').addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(currentOrderId); setStatus('ID do pedido copiado! ✅', 'success'); }catch(e){ setStatus('Falha ao copiar ID', 'error'); }
+      });
+      document.getElementById('XD-STORE-2011').addEventListener('click', ()=>{
+        try{
+          localStorage.setItem('paymentApprovedOrderId', JSON.stringify(currentOrderId));
+          setStatus('Validando pagamento...', 'success');
+        }catch(e){ setStatus('Falha ao sinalizar pagamento', 'error'); }
+      });
+
+      localStorage.setItem('lastOrder', JSON.stringify({ orderId: currentOrderId, payload, total, createdAt: Date.now(), status: 'aguardando' }));
+      startPolling(currentOrderId, total);
+    }
+
+    async function init(){
+      const summary = loadCartSummary();
+      currentOrderId = generateOrderId();
+      generateQrCode(summary.total);
+
+      const couponInput = document.getElementById('coupon-input');
+      const applyCouponBtn = document.getElementById('apply-coupon');
+      const removeCouponBtn = document.getElementById('remove-coupon');
+
+      applyCouponBtn.addEventListener('click', () => {
+        const code = couponInput.value.trim().toUpperCase();
+        if (!code) return;
+        const validCoupon = validateCoupon(code);
+        if (validCoupon) {
+          applyCoupon(code, validCoupon.percentage);
+          const summary = loadCartSummary();
+          generateQrCode(summary.total);
+          couponInput.value = '';
+          applyCouponBtn.style.display = 'none';
+          removeCouponBtn.style.display = 'inline-block';
+          setStatus(`Cupom aplicado! Desconto de ${validCoupon.percentage}% 🎉`, 'success');
+        } else {
+          setStatus('Cupom inválido ❌', 'error');
+        }
+      });
+
+      removeCouponBtn.addEventListener('click', () => {
+        removeCoupon();
+        const summary = loadCartSummary();
+        generateQrCode(summary.total);
+        couponInput.value = '';
+        applyCouponBtn.style.display = 'inline-block';
+        removeCouponBtn.style.display = 'none';
+        setStatus('Cupom removido', 'success');
+      });
+
+      const applied = getAppliedCoupon();
+      if (applied) {
+        couponInput.value = applied.code;
+        applyCouponBtn.style.display = 'none';
+        removeCouponBtn.style.display = 'inline-block';
+      }
+    }
+
+    init();
+
+    function applyTheme(){ const t = localStorage.getItem('xd-theme') || 'dark'; if (t==='light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme'); }
+    document.getElementById('theme-toggle').addEventListener('click', (e) => {
+      e.stopImmediatePropagation();
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          const cur = localStorage.getItem('xd-theme') || 'dark';
+          const next = cur === 'dark' ? 'light' : 'dark';
+          if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('xd-theme', next);
+          return;
+        }
+
+        const cur = localStorage.getItem('xd-theme') || 'dark';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        const wipe = document.createElement('div');
+        wipe.className = 'theme-wipe ' + (next === 'light' ? 'light' : 'dark');
+        document.body.appendChild(wipe);
+
+        document.documentElement.classList.add('theme-animating','with-transition');
+        setTimeout(() => wipe.classList.add('active'), 10);
+
+        setTimeout(() => {
+          if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('xd-theme', next);
+        }, 500);
+
+        setTimeout(() => {
+          wipe.classList.remove('active');
+          setTimeout(() => { try { wipe.remove(); } catch(e) {} }, 220);
+          document.documentElement.classList.remove('theme-animating');
+          setTimeout(() => { document.documentElement.classList.remove('with-transition'); }, 120);
+        }, 1080);
+      } catch(e) { /* noop */ }
+    });
+    applyTheme();
+  </script>
+</body>
+</html>

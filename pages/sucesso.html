@@ -9,8 +9,64 @@
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/professional.css" />
   <style>
-    body { background: var(--bg); color: var(--text); }
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      min-height: 100vh;
+    }
+
+    /* Theme light overrides */
+    html[data-theme="light"] {
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --glass-blur: blur(20px);
+    }
+
+    html[data-theme="light"] .card {
+      background: #ffffff;
+      border-color: #e5e7eb;
+      box-shadow: 0 10px 30px rgba(106,13,173,0.08);
+    }
+
+    html[data-theme="light"] .btn.ghost {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+      color: #111;
+    }
+
+    html[data-theme="light"] .btn.secondary {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+      color: #111;
+    }
+
+    html[data-theme="light"] .meta .mono {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+    }
+
+    html[data-theme="light"] .receipt-area {
+      background: #f6f6f6;
+      border-color: #e5e7eb;
+    }
+
+    html[data-theme="light"] hr {
+      border-top-color: rgba(0,0,0,0.1);
+    }
+
+    html[data-theme="light"] .animated-bg {
+      display: none;
+    }
+
+    html[data-theme="light"] .theme-toggle {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(0, 0, 0, 0.1);
+      color: #111;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     .container { max-width: 720px; margin: 4.5rem auto; padding: 1.25rem; }
 
     .card { background:var(--surface); border:2px solid var(--primary); border-radius: 16px; box-shadow: 0 10px 40px rgba(106,13,173,.18); padding: 2rem; text-align: center; position:relative; overflow:visible; }
@@ -42,10 +98,6 @@
     .confetti span{ position:absolute; width:10px; height:14px; border-radius:2px; opacity:0.95; transform: translateY(-20px); animation: confetti-fall 1900ms linear forwards; }
     @keyframes confetti-fall { 0%{ transform: translateY(-30vh) rotate(0deg); opacity:1 } 100%{ transform: translateY(120vh) rotate(540deg); opacity:0.85 } }
 
-    /* toast */
-    .toast { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(12px); background:var(--surface); border:1px solid var(--primary); color:var(--text); padding:.6rem .9rem; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.3); opacity:0; pointer-events:none; transition: transform 240ms ease, opacity 240ms ease; z-index:9999; }
-    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
-
     @media (max-width:600px){
       .card{ padding:1.25rem; margin:1rem; }
       .checkmark-circle{ width:76px; height:76px }
@@ -57,6 +109,14 @@
   </style>
 </head>
 <body>
+  <!-- Background animado -->
+  <div class="animated-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
   <button id="theme-toggle" aria-label="Alternar tema" class="support-button theme-toggle" style="position:fixed;top:12px;right:12px;z-index:4000;">🌓</button>
   <div class="container">
     <div class="card">
@@ -87,7 +147,6 @@
       </div>
 
       <div id="confetti" class="confetti" aria-hidden="true"></div>
-      <div id="sucesso-toast" class="toast" role="status" aria-live="polite"></div>
 
       <hr style="border:0;border-top:1px dashed rgba(255,255,255,.15); margin:1.5rem 0;" />
 
@@ -126,8 +185,9 @@
     </div>
   </div>
 
-  <script>
-    function toBRL(v){ try{ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch{ return 'R$ ' + (Number(v)||0).toFixed(2).replace('.',','); } }
+
+    <script>
+      function toBRL(v){ try{ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch{ return 'R$ ' + (Number(v)||0).toFixed(2).replace('.',','); } }
 
     (function(){
       let last = null;
@@ -136,16 +196,15 @@
         document.getElementById('orderId').textContent = last.orderId || '-';
         document.getElementById('orderTotal').textContent = toBRL(last.total || 0);
 
-        // trigger confetti and toast to celebrate
+        // trigger confetti to celebrate
         triggerConfetti();
-        showToast('Pagamento confirmado!');
       }
 
       // copy ID button
       const copyBtn = document.getElementById('copyOrderId');
       if (copyBtn){ copyBtn.addEventListener('click', async ()=>{
-        try{ await navigator.clipboard.writeText(document.getElementById('orderId').textContent); showToast('ID copiado para a área de transferência!'); }
-        catch(e){ showToast('Falha ao copiar ID', 'error'); }
+        try{ await navigator.clipboard.writeText(document.getElementById('orderId').textContent); alert('ID copiado para a área de transferência!'); }
+        catch(e){ alert('Falha ao copiar ID'); }
       }); }
 
       // download receipt button (keep as optional: simple TXT)
@@ -157,27 +216,53 @@
           const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a'); a.href = url; a.download = `${(payload.orderId||'pedido')}.txt`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-          showToast('Resumo do pedido baixado.');
-        }catch(e){ showToast('Falha ao baixar comprovante', 'error'); }
+          alert('Resumo do pedido baixado.');
+        }catch(e){ alert('Falha ao baixar comprovante'); }
       }); }
 
       document.getElementById('goHome').addEventListener('click', ()=>{ window.location.href = '../index.html'; });
 
       // Theme init/toggle
       function applyTheme(){ const t = localStorage.getItem('xd-theme') || 'dark'; if (t==='light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme'); }
-      const tbtn = document.getElementById('theme-toggle'); if (tbtn){ tbtn.addEventListener('click', ()=>{ const cur = localStorage.getItem('xd-theme') || 'dark'; const next = cur === 'dark' ? 'light' : 'dark'; localStorage.setItem('xd-theme', next); applyTheme(); }); }
+      const tbtn = document.getElementById('theme-toggle'); 
+      if (tbtn){ 
+        tbtn.addEventListener('click', (e) => {
+          e.stopImmediatePropagation();
+          try {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              const cur = localStorage.getItem('xd-theme') || 'dark';
+              const next = cur === 'dark' ? 'light' : 'dark';
+              if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+              localStorage.setItem('xd-theme', next);
+              return;
+            }
+
+            const cur = localStorage.getItem('xd-theme') || 'dark';
+            const next = cur === 'dark' ? 'light' : 'dark';
+            const wipe = document.createElement('div');
+            wipe.className = 'theme-wipe ' + (next === 'light' ? 'light' : 'dark');
+            document.body.appendChild(wipe);
+
+            document.documentElement.classList.add('theme-animating','with-transition');
+            setTimeout(() => wipe.classList.add('active'), 10);
+
+            setTimeout(() => {
+              if (next === 'light') document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme');
+              localStorage.setItem('xd-theme', next);
+            }, 500);
+
+            setTimeout(() => {
+              wipe.classList.remove('active');
+              setTimeout(() => { try { wipe.remove(); } catch(e) {} }, 220);
+              document.documentElement.classList.remove('theme-animating');
+              setTimeout(() => { document.documentElement.classList.remove('with-transition'); }, 120);
+            }, 1080);
+          } catch(e) { /* noop */ }
+        }); 
+      }
       applyTheme();
 
-      // small toast util
-      function showToast(msg, kind='success'){
-        try{
-          const el = document.getElementById('sucesso-toast');
-          el.textContent = msg; el.classList.add('show');
-          setTimeout(()=> el.classList.remove('show'), 2800);
-        }catch(e){}
-      }
-
-      // confetti util: create colored pieces and let CSS animate
+      : create colored pieces and let CSS animate
       function triggerConfetti(){
         try{
           const colors = [getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(), getComputedStyle(document.documentElement).getPropertyValue('--primary-2').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(), '#FDE68A', '#FCA5A5'];
@@ -203,10 +288,11 @@
       const copyMsgBtn = document.getElementById('copyTicketMsg');
       if (copyMsgBtn){ copyMsgBtn.addEventListener('click', async ()=>{
         const msg = `Olá, segue o ID do pedido ${last && last.orderId ? last.orderId : ''}. Já realizei o pagamento.`;
-        try{ await navigator.clipboard.writeText(msg); showToast('Mensagem copiada: cole no ticket.'); }catch(e){ showToast('Falha ao copiar mensagem', 'error'); }
+        try{ await navigator.clipboard.writeText(msg); alert('Mensagem copiada: cole no ticket.'); }catch(e){ alert('Falha ao copiar mensagem'); }
       }); }
 
-    })();
-  </script>
-</body>
+})();
+    </script>
+    
+  </body>
 </html>
